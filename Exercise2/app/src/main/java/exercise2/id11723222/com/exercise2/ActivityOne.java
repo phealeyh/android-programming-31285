@@ -17,7 +17,7 @@ import android.widget.Toast;
 import android.content.Intent;
 
 public class ActivityOne extends Activity{
-
+    private final static String TAG = "TAG";
     private final static String EXTRA_MESSAGE = "exercise2.id11723222.com.exercise2";
     private static final String PHONE = "phone";
     private Button submitButton, clearAllButton, exitButton;
@@ -32,6 +32,37 @@ public class ActivityOne extends Activity{
         listenForExitButton();
 
     }
+
+    public void onStart(){
+        super.onStart();
+        Log.d(TAG, "In the onStart() event");
+    }
+
+    public void onRestart(){
+        super.onRestart();
+        Log.d(TAG,"In the onRestart() event");
+    }
+
+    public void onResume(){
+        super.onResume();
+        Log.d(TAG,"In the onResume() event");
+    }
+
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG,"In the onPause() event");
+    }
+
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG,"In the onStop() event");
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG,"In the onDestroy() event");
+    }
+
 
 
     private void listenForSubmitButton(){
