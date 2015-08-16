@@ -32,6 +32,8 @@ public class ActivityOne extends Activity{
         listenForExitButton();
 
     }
+    //use onSaveInstanceState
+    //use onRestoreInstanceState
 
     public void onStart(){
         super.onStart();

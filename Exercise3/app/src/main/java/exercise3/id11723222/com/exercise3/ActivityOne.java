@@ -1,13 +1,17 @@
 package exercise3.id11723222.com.exercise3;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,7 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ActivityOne extends ActionBarActivity{
+public class ActivityOne extends Activity{
+
     private static final String TAG = "TAG";
     private Button clearButton, resetButton;
     private TextView binView;
@@ -25,11 +30,34 @@ public class ActivityOne extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one);
+        WindowManager wm = getWindowManager();
+        Display d = wm.getDefaultDisplay();
+        if(d.getWidth() > d.getHeight()){
+            Log.d(TAG, "orientation is landscape mode");
+        }
+        else{
+            Log.d(TAG,"Orientation is potrait mode");
+        }
         listenForNrField();
         listenForClearButton();
         listenForResetButton();
         listenForTypeText();
         listenForSizeText();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("Type", ((EditText) findViewById(R.id.typeView)).getText().toString());
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "In the onSaveInstanceState() event");
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        typeText.setText(savedInstanceState.get("Type").toString());
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "In the onRestoreInstanceState() event");
     }
 
     public void onStart(){
