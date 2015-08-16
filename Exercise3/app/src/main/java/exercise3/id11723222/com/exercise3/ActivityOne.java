@@ -3,6 +3,9 @@ package exercise3.id11723222.com.exercise3;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +25,7 @@ import android.widget.Toast;
 public class ActivityOne extends Activity{
 
     private static final String TAG = "TAG";
-    private Button clearButton, resetButton;
+    private Button clearButton, resetButton, rotateButton;
     private TextView binView;
     private EditText typeText, sizeText, nrText;
 
@@ -30,19 +33,13 @@ public class ActivityOne extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one);
-        WindowManager wm = getWindowManager();
-        Display d = wm.getDefaultDisplay();
-        if(d.getWidth() > d.getHeight()){
-            Log.d(TAG, "orientation is landscape mode");
-        }
-        else{
-            Log.d(TAG,"Orientation is potrait mode");
-        }
+        setActivityBackgroundColour(getResources().getColor(R.color.red));
         listenForNrField();
         listenForClearButton();
         listenForResetButton();
         listenForTypeText();
         listenForSizeText();
+        listenForRotateButton();
     }
 
     @Override
@@ -54,11 +51,12 @@ public class ActivityOne extends Activity{
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
         typeText.setText(savedInstanceState.get("Type").toString());
         super.onRestoreInstanceState(savedInstanceState);
         Log.d(TAG, "In the onRestoreInstanceState() event");
     }
+
 
     public void onStart(){
         super.onStart();
@@ -104,6 +102,34 @@ public class ActivityOne extends Activity{
                     text.setText("");
                 }
             });
+    }
+
+    private void listenForRotateButton(){
+        rotateButton = (Button) findViewById(R.id.rotateButton);
+        rotateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateScreen();
+                Log.d(TAG,"Rotate button clicked");
+            }
+        });
+    }
+
+    private void rotateScreen(){
+        Configuration config = getResources().getConfiguration();
+        if(config.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){ //in potrait mode
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else{ //current configuration is set to landscape
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            //change to potrait mode
+
+        }
+    }
+
+    private void setActivityBackgroundColour(int colour){
+        View view = this.getWindow().getDecorView();
+        view.setBackgroundColor(colour);
     }
 
     private void listenForResetButton(){
