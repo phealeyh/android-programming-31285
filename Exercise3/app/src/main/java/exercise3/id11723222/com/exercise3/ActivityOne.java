@@ -21,10 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class ActivityOne extends Activity{
 
-    private static final String TAG = "TAG";
+    private static final String TAG = "MAD";
     private Button clearButton, resetButton, rotateButton;
     private TextView binView;
     private EditText typeText, sizeText, nrText;
@@ -93,12 +92,14 @@ public class ActivityOne extends Activity{
             clearButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EditText text = (EditText) findViewById(R.id.sizeView);
-                    text.setText("");
-                    text = (EditText) findViewById(R.id.nrView);
-                    text.setText("");
-                    text = (EditText) findViewById(R.id.typeView);
-                    text.setText("");
+                    try {
+                        EditText text = (EditText) findViewById(R.id.sizeView);
+                        text.setText("");
+                        text = (EditText) findViewById(R.id.nrView);
+                        text.setText("");
+                        text = (EditText) findViewById(R.id.typeView);
+                        text.setText("");
+                    }catch(Exception e){}
                 }
             });
     }
@@ -121,14 +122,8 @@ public class ActivityOne extends Activity{
         }
         else{ //current configuration is set to landscape
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            //change to potrait mode
 
         }
-    }
-
-    private void setActivityBackgroundColour(int colour){
-        View view = this.getWindow().getDecorView();
-        view.setBackgroundColor(colour);
     }
 
     private void listenForResetButton(){
