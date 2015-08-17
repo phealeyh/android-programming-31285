@@ -99,7 +99,9 @@ public class ActivityOne extends Activity{
                         text.setText("");
                         text = (EditText) findViewById(R.id.typeView);
                         text.setText("");
-                    }catch(Exception e){}
+                    }catch(Exception e){
+                        Log.e(TAG,"Error received");
+                    }
                 }
             });
     }
@@ -146,11 +148,11 @@ public class ActivityOne extends Activity{
                 Context context = getApplicationContext();
                 if(hasFocus) {
                     CharSequence text = "Bin Quantity HAS focus";
-                    Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
                 } else {
                     CharSequence text = "Bin Quantity LOST focus";
-                    Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -163,7 +165,7 @@ public class ActivityOne extends Activity{
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
                     CharSequence text = "Bin Quantity LOST focus";
-                    Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -176,7 +178,7 @@ public class ActivityOne extends Activity{
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
                     CharSequence text = "Bin Quantity LOST focus";
-                    Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -9,35 +9,42 @@
     tools:context=".ActivityOne"
     >
 
+    <!-- Upper one third of content represented by a relative layout -->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/relativeLayout">
 
+        <!--Bin Type Tag -->
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/binView"
             android:text="Bin Type"
             android:gravity="center"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/typeView"
-            android:layout_toEndOf="@+id/typeView" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <!--Type Input Field -->
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Type(e.g. waste)"
             android:id="@+id/typeView"
             android:layout_below="@+id/binView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <!--Size Text Input Field -->
+
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,17 +52,21 @@
             android:id="@+id/sizeView"
             android:layout_below="@+id/typeView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-        
+            android:layout_alignParentStart="true"
+            />
+
+        <!--NR Text Input Field -->
+
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nr"
             android:id="@+id/nrView"
             android:layout_below="@+id/typeView"
-            android:layout_alignRight="@+id/binView"
-            android:layout_alignEnd="@+id/binView" />
+            android:layout_toRightOf="@+id/sizeView" />
     </RelativeLayout>
+
+    <!--Buttons in the center of the window -->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -63,12 +74,16 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp">
+        <!--Clear all button -->
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/clearButton"
             android:text="Clr all"
             />
+        <!--Reset button -->
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,6 +92,7 @@
             />
 
     </LinearLayout>
+    <!--Rotate at the bottom of the window -->
 
     <LinearLayout
         android:orientation="horizontal"
@@ -85,13 +101,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
+        <!--Rotate Button -->
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rotateButton"
             android:text="Rotate"
             />
-
 
     </LinearLayout>
 
