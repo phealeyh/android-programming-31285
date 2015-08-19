@@ -24,9 +24,10 @@ import android.widget.Toast;
 public class ActivityOne extends Activity{
 
     private static final String TAG = "MAD";
-    private Button clearButton, resetButton, rotateButton;
+    private Button clearButton, resetButton, rotateButton; //use m variables
     private TextView binView;
     private EditText typeText, sizeText, nrText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

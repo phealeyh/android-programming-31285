@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+
+    <!-- Main Tag -->
+
+    <TextView
+
+        android:text="Select a file to download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tagView"
+        />
+
+    <!-- Spinner views -->
+
+    <Spinner
+
+        android:id="@+id/spinnerFiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:layout_below="@+id/tagView"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        />
+    <!-- DownloadSelectedFile Button -->
+
+
+    <Button
+        android:id="@+id/downloadSelectedFileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="DOWNLOAD SELECTED FILE"
+        android:layout_above="@+id/downloadAllFilesButton"
+        android:layout_centerHorizontal="true" />
+    <!-- DownloadAllFiles Button -->
+
+    <Button
+        android:id="@+id/downloadAllFilesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="DOWNLOAD ALL FILES"
+
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/tagView"
+        android:layout_alignEnd="@+id/tagView" />
+    <!-- Calculate Button -->
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="CALCULATE MILLIONTH TRI-NUMBER"
+
+        android:layout_below="@+id/downloadAllFilesButton"
+        android:layout_centerHorizontal="true" />
+
+
+
+
+</RelativeLayout>
