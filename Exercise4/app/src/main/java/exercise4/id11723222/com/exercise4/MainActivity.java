@@ -28,9 +28,7 @@ import static android.view.View.*;
 public class MainActivity extends Activity {
     private Button mDownloadFileButton;
     private Context context = this;
-    private String[] files = {"deliver-records.zip",
-            "recycling-graphics.zip","route-maps.zip"};
-    private String currentText = "";
+    private Spinner spinner;
 
 
     /**
@@ -45,8 +43,11 @@ public class MainActivity extends Activity {
         listenForDownloadButton();
     }
 
+
     private void listenForSpinnerSelection() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerFiles);
+        String[] files = {"deliver-records.zip",
+                "recycling-graphics.zip","route-maps.zip"};
+        spinner = (Spinner) findViewById(R.id.spinnerFiles);
         ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, files);
         adapter_state.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -59,7 +60,6 @@ public class MainActivity extends Activity {
                 if (item != null) {
                     Toast.makeText(MainActivity.this, item.toString(),
                             Toast.LENGTH_SHORT).show();
-                    currentText = parent.getItemAtPosition(position).toString();
                 }
             }
 
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings){
             return true;
         }
 
@@ -98,33 +98,61 @@ public class MainActivity extends Activity {
         mDownloadFileButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DownloadFilesTask().execute();
+                new DownloadFilesTask(spinner.getSelectedItem().toString()).execute();
             }
         });
 
 
     }
-    // Here is the AsyncTask class:
-    //
-    // AsyncTask<Params, Progress, Result>.
-    //    Params – the type (Object/primitive) you pass to the AsyncTask from .execute()
-    //    Progress – the type that gets passed to onProgressUpdate()
-    //    Result – the type returns from doInBackground()
-    // Any of them can be String, Integer, Void, etc.
+
+    private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
+        private ProgressBar progressBar;
+
+        public DownloadAllAsyncTask(){
+            //initialize progress bar
+            progressBar = new ProgressBar(context);
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+        @Override
+        protected Void doInBackground(String... params){
+            publishProgress("Hello world"); //sends to onProgresUpdate
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            Log.d("TAG", values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+        }
+    }
 
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, Void>{
-        private ProgressDialog progressDialog = new ProgressDialog(context);
-        private ProgressBar progressBar = new ProgressBar(context);
+        private ProgressDialog progressDialog;
+        private String fileName;
+
+        public DownloadFilesTask(String fileName){
+            //initialise progress dialog
+            progressDialog = new ProgressDialog(context);
+            //initialise string contents
+            this.fileName = fileName;
+        }
 
         @Override
         protected void onPreExecute() {
             //show progress dialog
-            progressDialog.setMessage("Downloading " + currentText);
+            progressDialog.setMessage("Downloading " + fileName);
             progressDialog.show();
             progressDialog.setIndeterminate(true);
-            progressBar.setMax(3);
-            progressBar.setProgress(1);
 
 
         }
