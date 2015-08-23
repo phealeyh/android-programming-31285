@@ -26,9 +26,12 @@ import static android.view.View.*;
 
 
 public class MainActivity extends Activity {
-    private Button mDownloadFileButton;
+
+    private Button mDownloadFileButton, mDownloadAllFileButton;
     private Context context = this;
     private Spinner spinner;
+    private String[] files = {"deliver-records.zip",
+            "recycling-graphics.zip","route-maps.zip"};
 
 
     /**
@@ -41,12 +44,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         listenForSpinnerSelection();
         listenForDownloadButton();
+        listenForDownloadAllButton();
     }
 
 
-    private void listenForSpinnerSelection() {
-        String[] files = {"deliver-records.zip",
-                "recycling-graphics.zip","route-maps.zip"};
+    private void listenForSpinnerSelection(){
         spinner = (Spinner) findViewById(R.id.spinnerFiles);
         ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, files);
@@ -105,33 +107,64 @@ public class MainActivity extends Activity {
 
     }
 
-    private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
-        private ProgressBar progressBar;
+    private void listenForDownloadAllButton(){
+        mDownloadAllFileButton = (Button)findViewById(R.id.downloadAllFilesButton);
+        mDownloadAllFileButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create new instance of DownloadAllAsyncTask
+                new DownloadAllAsyncTask(spinner.getAdapter().getCount()).execute(files);
+            }
+        });
+    }
 
-        public DownloadAllAsyncTask(){
+    private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
+        private ProgressDialog progressBar;
+        private int numFiles;
+
+        public DownloadAllAsyncTask(int numFiles){
             //initialize progress bar
-            progressBar = new ProgressBar(context);
+            progressBar = new ProgressDialog(context);
+            //initialise number of files
+            this.numFiles = numFiles;
+
         }
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
+            progressBar.setMax(numFiles);
+            progressBar.setIndeterminate(false);
+            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressBar.setMessage("Downloading " + files[0] + "......");
+            //progressBar.incrementProgressBy(1);
+            progressBar.show();
 
         }
+
 
         @Override
         protected Void doInBackground(String... params){
-            publishProgress("Hello world"); //sends to onProgresUpdate
+            for(int i = 0; i < numFiles; i++) {
+                try{
+                    Thread.sleep(2000L);
+                    publishProgress(Integer.toString(i));
+                }catch(Exception e){
+                    Log.d("Error ", e.toString());
+                }
+            }
             return null;
         }
 
         @Override
         protected void onProgressUpdate(String... values){
-            Log.d("TAG", values[0]);
+            Log.d("TAG", "hit");
+            progressBar.incrementProgressBy(1);
+            progressBar.setMessage("Downloading " + files[Integer.parseInt(values[0])] + "......");
         }
 
         @Override
         protected void onPostExecute(Void result){
-            super.onPostExecute(result);
+            progressBar.dismiss();
         }
     }
 
@@ -154,7 +187,6 @@ public class MainActivity extends Activity {
             progressDialog.show();
             progressDialog.setIndeterminate(true);
 
-
         }
 
         @Override
@@ -166,15 +198,6 @@ public class MainActivity extends Activity {
             }
             return null;
         }
-
-        // Here is the AsyncTask class:
-        //
-        // AsyncTask<Params, Progress, Result>.
-        //    Params – the type (Object/primitive) you pass to the AsyncTask from .execute()
-        //    Progress – the type that gets passed to onProgressUpdate()
-        //    Result – the type returns from doInBackground()
-        // Any of them can be String, Integer, Void, etc.
-
 
 
         @Override
