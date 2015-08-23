@@ -127,7 +127,6 @@ public class MainActivity extends Activity {
             progressBar = new ProgressDialog(context);
             //initialise number of files
             this.numFiles = numFiles;
-
         }
 
         @Override
@@ -136,18 +135,15 @@ public class MainActivity extends Activity {
             progressBar.setIndeterminate(false);
             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressBar.setMessage("Downloading " + files[0] + "......");
-            //progressBar.incrementProgressBy(1);
             progressBar.show();
-
         }
-
 
         @Override
         protected Void doInBackground(String... params){
             for(int i = 0; i < numFiles; i++) {
                 try{
-                    Thread.sleep(2000L);
                     publishProgress(Integer.toString(i));
+                    Thread.sleep(2000L);
                 }catch(Exception e){
                     Log.d("Error ", e.toString());
                 }
@@ -157,9 +153,9 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(String... values){
-            Log.d("TAG", "hit");
-            progressBar.incrementProgressBy(1);
+            Log.d("TAG", files[Integer.parseInt(values[0])]);
             progressBar.setMessage("Downloading " + files[Integer.parseInt(values[0])] + "......");
+            progressBar.incrementProgressBy(1);
         }
 
         @Override
@@ -167,7 +163,6 @@ public class MainActivity extends Activity {
             progressBar.dismiss();
         }
     }
-
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, Void>{
         private ProgressDialog progressDialog;
