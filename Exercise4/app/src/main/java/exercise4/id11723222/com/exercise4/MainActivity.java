@@ -22,14 +22,10 @@ import static android.view.View.*;
 public class MainActivity extends Activity {
 
     private Button mDownloadFileButton, mDownloadAllFileButton, mCalculateButton;
-    private Context context = this;
-    private Spinner spinner;
+    private Context mContext = this;
+    private Spinner mSpinner;
 
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,24 +36,34 @@ public class MainActivity extends Activity {
         listenForCalculateButton();
     }
 
+    /**
+     * When the calculate button is clicked, a new instance of
+     * the calculate triangular async task class is created with
+     *  the given tri number of 1000000.
+     */
     private void listenForCalculateButton(){
         mCalculateButton = (Button)findViewById(R.id.calculateButton);
         mCalculateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CalculateTriangularAsyncTask(1000000).execute();
+                new CalculateTriangularAsyncTask(getResources().getInteger(R.integer.number)).execute();
             }
         });
     }
 
 
+    /**
+     * When a selection for a spinner element is selected,
+     * a toast appears with the selected spinner along with the
+     * the spinner setting its selection to that given input
+     */
     private void listenForSpinnerSelection(){
-        spinner = (Spinner) findViewById(R.id.spinnerFiles);
+        mSpinner = (Spinner) findViewById(R.id.spinnerFiles);
         ArrayAdapter<CharSequence> adapter_state = ArrayAdapter.createFromResource(this,
                 R.array.files, android.R.layout.simple_spinner_item);
         adapter_state.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter_state);
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        mSpinner.setAdapter(adapter_state);
+        mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
@@ -97,15 +103,27 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This listens for the download button to be clicked from the user;
+     * once clicked the selected element within the spinner will then
+     * begin to start downloading that specific file
+     */
+
     private void listenForDownloadButton(){
         mDownloadFileButton = (Button)findViewById(R.id.downloadSelectedFileButton);
         mDownloadFileButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DownloadFilesTask(spinner.getSelectedItem().toString()).execute();
+                new DownloadSelectedAsyncTask(mSpinner.getSelectedItem().toString()).execute();
             }
         });
     }
+
+    /**
+     * This will listen for the user clicking on the download all button;
+     * once this button is clicked, the user will download all of the files
+     * found within the array of the strings xml.
+     */
 
     private void listenForDownloadAllButton(){
         mDownloadAllFileButton = (Button)findViewById(R.id.downloadAllFilesButton);
@@ -113,10 +131,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //create new instance of DownloadAllAsyncTask
-                new DownloadAllAsyncTask(spinner.getAdapter().getCount()).execute(getResources().getStringArray(R.array.files));
+                new DownloadAllAsyncTask(mSpinner.getAdapter().getCount()).
+                        execute(getResources().getStringArray(R.array.files));
             }
         });
     }
+
+    /**
+     * Take the given number and use that as the nth number.
+     * Everytime the loop gets to the 50th number, increment the progress bar
+     * by 50 and then return the result divided by 2.
+     * Dismiss the horizontal progress bar and then show the given result
+     * calculated.
+     */
 
     private class CalculateTriangularAsyncTask extends AsyncTask<Void, Void, Long>{
 
@@ -125,7 +152,7 @@ public class MainActivity extends Activity {
 
         public CalculateTriangularAsyncTask(int number){
             this.number = number;
-            mProgressBar = new ProgressDialog(context);
+            mProgressBar = new ProgressDialog(mContext);
         }
 
         @Override
@@ -171,6 +198,15 @@ public class MainActivity extends Activity {
 
     }
 
+    /**
+     * Take the number of files found within the spinner and then use that
+     * to set the maximum for the horizontal progress bar. The for loop
+     * will go through each file found within the spinner array and
+     * increment the progress bar by one when each selected file has been
+     * downloaded. Once the for loop has been completed, the progress bar
+     * is dismissed.
+     */
+
     private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
 
         private ProgressDialog progressBar;
@@ -178,7 +214,7 @@ public class MainActivity extends Activity {
 
         public DownloadAllAsyncTask(int numFiles){
             //initialize progress bar
-            progressBar = new ProgressDialog(context);
+            progressBar = new ProgressDialog(mContext);
             //initialise number of files
             this.numFiles = numFiles;
         }
@@ -188,7 +224,8 @@ public class MainActivity extends Activity {
             progressBar.setMax(numFiles);
             progressBar.setIndeterminate(false);
             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressBar.setMessage(R.string.downloading + R.string.delivery + getResources().getString(R.string.dots));
+            progressBar.setMessage(R.string.downloading + R.string.delivery
+                    + getResources().getString(R.string.dots));
             progressBar.show();
         }
 
@@ -197,9 +234,10 @@ public class MainActivity extends Activity {
             for(int i = 0; i < params.length; i++) {
                 try{
                     publishProgress(params[i]);
-                    Thread.sleep(2000L);
+                    Thread.sleep(getResources().getInteger(R.integer.sleep));
                 }catch(Exception e){
-                    Log.d(getResources().getString(R.string.error), e.toString());
+                    Log.d(getResources().getString(R.string.error)
+                            , e.toString());
                 }
             }
             return null;
@@ -207,7 +245,8 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(String... values){
-            progressBar.setMessage(R.string.downloading + values[0] + R.string.dots);
+            progressBar.setMessage(R.string.downloading
+                    + values[0] + R.string.dots);
             progressBar.incrementProgressBy(1);
         }
 
@@ -217,13 +256,20 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class DownloadFilesTask extends AsyncTask<Void, Void, Void>{
+    /**
+     * The DownloadSelectedAsyncTask will take a selected filename as an argument
+     * and then download that by showing a progress dialog
+     * that is indeterminate (spinning animation). It will do this for 2 seconds and then
+     * the progress dialog will be dismissed.
+     */
+
+    private class DownloadSelectedAsyncTask extends AsyncTask<Void, Void, Void>{
         private ProgressDialog progressDialog;
         private String fileName;
 
-        public DownloadFilesTask(String fileName){
+        public DownloadSelectedAsyncTask(String fileName){
             //initialise progress dialog
-            progressDialog = new ProgressDialog(context);
+            progressDialog = new ProgressDialog(mContext);
             //initialise string contents
             this.fileName = fileName;
         }

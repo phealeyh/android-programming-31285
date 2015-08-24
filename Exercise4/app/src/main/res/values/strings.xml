@@ -11,7 +11,8 @@
     <string name="dots">......</string>
     <string name="downloading">Downloading </string>
     <string name="error">Error </string>
-
+    <integer name="number">1000000</integer>
+    <integer name="sleep">2000</integer>
 
     <string-array name="files">
         <item>@string/delivery</item>
