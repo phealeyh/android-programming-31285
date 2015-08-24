@@ -14,14 +14,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.net.URL;
-
-import javax.xml.transform.Result;
-
 import static android.view.View.*;
 
 
@@ -30,8 +24,6 @@ public class MainActivity extends Activity {
     private Button mDownloadFileButton, mDownloadAllFileButton, mCalculateButton;
     private Context context = this;
     private Spinner spinner;
-    private String[] files = {"deliver-records.zip",
-            "recycling-graphics.zip","route-maps.zip"};
 
 
     /**
@@ -61,8 +53,8 @@ public class MainActivity extends Activity {
 
     private void listenForSpinnerSelection(){
         spinner = (Spinner) findViewById(R.id.spinnerFiles);
-        ArrayAdapter<String> adapter_state = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, files);
+        ArrayAdapter<CharSequence> adapter_state = ArrayAdapter.createFromResource(this,
+                R.array.files, android.R.layout.simple_spinner_item);
         adapter_state.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter_state);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -113,7 +105,6 @@ public class MainActivity extends Activity {
                 new DownloadFilesTask(spinner.getSelectedItem().toString()).execute();
             }
         });
-
     }
 
     private void listenForDownloadAllButton(){
@@ -122,7 +113,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //create new instance of DownloadAllAsyncTask
-                new DownloadAllAsyncTask(spinner.getAdapter().getCount()).execute(files);
+                new DownloadAllAsyncTask(spinner.getAdapter().getCount()).execute(getResources().getStringArray(R.array.files));
             }
         });
     }
@@ -142,7 +133,7 @@ public class MainActivity extends Activity {
             mProgressBar.setMax(number);
             mProgressBar.setIndeterminate(false);
             mProgressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressBar.setMessage("Calculating...");
+            mProgressBar.setMessage(getResources().getString(R.string.calculation));
             mProgressBar.show();
 
         }
@@ -173,13 +164,15 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Long result){
             mProgressBar.dismiss();
-            String text = "The " + number + " tri-number is " + result;
+            String text = getResources().getString(R.string.tri) + number +
+                    getResources().getString(R.string.trinumber)+ result;
             Toast.makeText(MainActivity.this,text,Toast.LENGTH_LONG).show();
         }
 
     }
 
     private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
+
         private ProgressDialog progressBar;
         private int numFiles;
 
@@ -195,18 +188,18 @@ public class MainActivity extends Activity {
             progressBar.setMax(numFiles);
             progressBar.setIndeterminate(false);
             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressBar.setMessage("Downloading " + files[0] + "......");
+            progressBar.setMessage(R.string.downloading + R.string.delivery + getResources().getString(R.string.dots));
             progressBar.show();
         }
 
         @Override
         protected Void doInBackground(String... params){
-            for(int i = 0; i < numFiles; i++) {
+            for(int i = 0; i < params.length; i++) {
                 try{
-                    publishProgress(Integer.toString(i));
+                    publishProgress(params[i]);
                     Thread.sleep(2000L);
                 }catch(Exception e){
-                    Log.d("Error ", e.toString());
+                    Log.d(getResources().getString(R.string.error), e.toString());
                 }
             }
             return null;
@@ -214,8 +207,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(String... values){
-            Log.d("TAG", files[Integer.parseInt(values[0])]);
-            progressBar.setMessage("Downloading " + files[Integer.parseInt(values[0])] + "......");
+            progressBar.setMessage(R.string.downloading + values[0] + R.string.dots);
             progressBar.incrementProgressBy(1);
         }
 
@@ -237,16 +229,15 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             //show progress dialog
-            progressDialog.setMessage("Downloading " + fileName);
+            progressDialog.setMessage(R.string.downloading + fileName);
             progressDialog.show();
             progressDialog.setIndeterminate(true);
-
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(Void... params){
             try {
                 Thread.sleep(2000L);
             } catch (InterruptedException e1){
@@ -258,11 +249,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void nothing){
-            Log.d("onPostExecute","Hit");
             progressDialog.dismiss();
-            //find the final frame
-            //post execute and finish the thread and see what happens
-            //post execute thread and finish it
         }
     }
 
