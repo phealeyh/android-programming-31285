@@ -13,6 +13,7 @@
         android:text="Select a file to download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="48px"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,7 +25,7 @@
     <Spinner
 
         android:id="@+id/spinnerFiles"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="54dp"
         android:layout_below="@+id/tagView"
@@ -40,8 +41,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="DOWNLOAD SELECTED FILE"
-        android:layout_above="@+id/downloadAllFilesButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/spinnerFiles"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp" />
     <!-- DownloadAllFiles Button -->
 
     <Button
@@ -51,9 +53,8 @@
         android:gravity="center"
         android:text="DOWNLOAD ALL FILES"
 
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/tagView"
-        android:layout_alignEnd="@+id/tagView" />
+        android:layout_below="@+id/downloadSelectedFileButton"
+        android:layout_centerHorizontal="true" />
     <!-- Calculate Button -->
     <Button
         android:id="@+id/calculateButton"

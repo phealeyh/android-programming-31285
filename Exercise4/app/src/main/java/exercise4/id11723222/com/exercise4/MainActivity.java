@@ -27,7 +27,7 @@ import static android.view.View.*;
 
 public class MainActivity extends Activity {
 
-    private Button mDownloadFileButton, mDownloadAllFileButton;
+    private Button mDownloadFileButton, mDownloadAllFileButton, mCalculateButton;
     private Context context = this;
     private Spinner spinner;
     private String[] files = {"deliver-records.zip",
@@ -45,6 +45,17 @@ public class MainActivity extends Activity {
         listenForSpinnerSelection();
         listenForDownloadButton();
         listenForDownloadAllButton();
+        listenForCalculateButton();
+    }
+
+    private void listenForCalculateButton(){
+        mCalculateButton = (Button)findViewById(R.id.calculateButton);
+        mCalculateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CalculateTriangularAsyncTask(1000000).execute();
+            }
+        });
     }
 
 
@@ -55,7 +66,6 @@ public class MainActivity extends Activity {
         adapter_state.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter_state);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
@@ -104,7 +114,6 @@ public class MainActivity extends Activity {
             }
         });
 
-
     }
 
     private void listenForDownloadAllButton(){
@@ -116,6 +125,58 @@ public class MainActivity extends Activity {
                 new DownloadAllAsyncTask(spinner.getAdapter().getCount()).execute(files);
             }
         });
+    }
+
+    private class CalculateTriangularAsyncTask extends AsyncTask<Void, Void, Long>{
+
+        private int number;
+        private ProgressDialog mProgressBar;
+
+        public CalculateTriangularAsyncTask(int number){
+            this.number = number;
+            mProgressBar = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute(){
+            mProgressBar.setMax(number);
+            mProgressBar.setIndeterminate(false);
+            mProgressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressBar.setMessage("Calculating...");
+            mProgressBar.show();
+
+        }
+
+        @Override
+        protected Long doInBackground(Void... params){
+            long result = 0L;
+            int count = 0;
+            for(int i = 0; i <= number; i++){
+                //introduce a count variable to track the 50th number
+                count++;
+                result += number;
+                //update at 50
+                if(count == 50){
+                    publishProgress();
+                    count = 0;
+                }
+            }
+            return result / 2;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... params){
+            mProgressBar.incrementProgressBy(50);
+        }
+
+
+        @Override
+        protected void onPostExecute(Long result){
+            mProgressBar.dismiss();
+            String text = "The " + number + " tri-number is " + result;
+            Toast.makeText(MainActivity.this,text,Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private class DownloadAllAsyncTask extends AsyncTask<String, String, Void>{
@@ -204,5 +265,7 @@ public class MainActivity extends Activity {
             //post execute thread and finish it
         }
     }
+
+
 
 }
