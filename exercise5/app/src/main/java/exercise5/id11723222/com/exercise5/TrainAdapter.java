@@ -1,6 +1,7 @@
 package exercise5.id11723222.com.exercise5;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -25,7 +26,7 @@ public class TrainAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position){
         return trainList.get(position);
     }
 
@@ -34,10 +35,26 @@ public class TrainAdapter extends BaseAdapter{
         return 0;
     }
 
+    /**
+     *
+     * Function: getView
+     * -----------------
+     * This will get a selected view from the given data source
+     */
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return (View)trainList.get(position);
+        //return a view by generating a view or recycling it
+        View view;
+        if(convertView != null){
+            view = convertView;
+        }
+        else{
+            //build view from a given xml
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,null);
+        }
+        return view;
     }
 
 }

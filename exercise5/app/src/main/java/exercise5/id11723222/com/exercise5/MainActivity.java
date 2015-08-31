@@ -2,25 +2,51 @@ package exercise5.id11723222.com.exercise5;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView mLeftView, mMiddleView, mRightView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.list_item);
+        setUpViews();
+        //data model
         ArrayList<TrainData> trainList = new ArrayList<TrainData>();
+        //set the array up
         setUpTrains(trainList);
+        //an adapter is a binding between the data source and the given views
         TrainAdapter adapter = new TrainAdapter(this,trainList);
+        //use onItemClickListener to setup the interaction between a view and the user
+
+    }
+
+    /**Function:setUpViews
+     * --------------------
+     * This function will set up the views by linking them with their
+     * corresponding views within the xml. Bring xml to java.
+     */
+
+    private void setUpViews(){
+        //list views are responsible for taking the data from a value from an adapter
+        //and responsible for displaying the actual data from that adapter
+        mLeftView = (ListView) findViewById(R.id.left_pane);
+        mMiddleView = (ListView) findViewById(R.id.middle_pane);
+        mRightView = (ListView) findViewById(R.id.right_pane);
+
 
     }
 
 
-    private void setUpTrains(ArrayList trainList){
+
+    private void setUpTrains(ArrayList<TrainData> trainList){
         trainList.add(0,new TrainData("Inner West",3,"on-time","Central","4:00"));
         trainList.add(0,new TrainData("Inner West",1,"late","Central","2:00"));
     }
