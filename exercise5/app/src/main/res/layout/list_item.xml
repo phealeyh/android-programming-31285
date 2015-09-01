@@ -4,22 +4,23 @@
     android:layout_height="match_parent" android:id="@+id/parent"
     >
 
+    <!-- Left Pane -->
     <LinearLayout
         android:id="@+id/left_pane"
-
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:orientation="vertical"
-
+        android:background="@color/green"
         >
 
         <TextView
-            android:id="@+id/arrival_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/arrival_time_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="arrival_time"
             android:textStyle="bold"
             android:textColor="#FFFFFFFF"
+            android:gravity="center"
             />
 
         <ProgressBar
@@ -27,15 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:visibility="gone"
+            android:indeterminate="true"
             />
 
 
     </LinearLayout>
-    
+
+    <!-- Middle Pane -->
+
     <LinearLayout
         android:id="@+id/middle_pane"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
 
@@ -43,26 +47,33 @@
         android:layout_centerHorizontal="true">
 
         <TextView
+            android:id="@+id/platform_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/platform"
             />
+
         <TextView
+            android:id="@+id/arrival_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/arrival_time"
             />
         <TextView
+            android:id="@+id/status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/status"
             />
 
     </LinearLayout>
+
+    <!-- Right Pane -->
+
     <LinearLayout
         android:id="@+id/right_pane"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="right"
 
@@ -72,12 +83,14 @@
 
 
         <TextView
+            android:id="@+id/destination_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/destination_time"
             />
 
         <TextView
+            android:id="@+id/destination_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/destination"

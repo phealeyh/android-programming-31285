@@ -6,6 +6,14 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never"
+        android:visible="false"
+
+        />
+
+    <item android:id="@+id/add"
+        android:title="@string/add"
+        android:orderInCategory="100"
+        app:showAsAction="never"
         android:visible="true"
 
         />
@@ -15,25 +23,31 @@
         android:orderInCategory="100"
         app:showAsAction="never"
         android:visible="true"
-        />
-
-
-    <item android:id="@+id/add"
-        android:title="@string/add"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:visible="false"
 
         />
 
 
-    <item android:id="@+id/deleteAll"
+
+    <item android:id="@+id/delete_all"
         android:title="@string/delete_all"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:visible="false"
+        android:visible="true"
+
 
         />
+
+
+    <item android:id="@+id/quit"
+        android:title="@string/quit"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:visible="true"
+
+        />
+
+
+
 
 
 </menu>
