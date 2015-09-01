@@ -1,6 +1,19 @@
 <resources>
     <string name="app_name">Exercise6</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_preference">PreferenceActivity</string>
+    <string name="add_friend">ADD FRIEND</string>
+    <string name="list_friends">LIST ALL FRIENDS</string>
+    <string name="search_friends">SEARCH FRIENDS</string>
+    <string name="name">Name</string>
+    <string name="friend_preferences">Friend Preferences</string>
+    <string name="date_format">Date Format</string>
+    <string name="day_format">dd-MM-yyyy</string>
+    <string name="month_format">MM-dd-yyyy</string>
+    <string name="delete_friends">Can delete friends</string>
+    <string-array name="date_formats">
+        <item>dd-MM-yyyy</item>
+        <item>MM-dd-yyyy</item>
+    </string-array>
 </resources>
