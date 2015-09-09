@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Friend preferences title -->
+
+    <PreferenceCategory
+        android:title="@string/friend_preferences"
+        >
+    </PreferenceCategory>
+    <!-- Date format preference -->
+
     <ListPreference
-        android:key="date_preference"
+        android:key="preference_date"
         android:title="@string/date_format"
-        android:entries="@array/date_formats"
-        android:entryValues="@array/date_formats"/>
+        android:summary="@string/month_format"
+        android:dialogTitle="@string/date_format"
+        android:entries="@array/date_formats_entries"
+        android:entryValues="@array/date_formats_entries"
+        android:defaultValue="1"
+        />
+
+    <!-- Can delete friends checkbox -->
+    <CheckBoxPreference
+        android:key="pref_deleteFriendsCheck"
+        android:title="@string/delete_friends"
+        android:defaultValue="true"
+        >
+
+    </CheckBoxPreference>
+
 
 </PreferenceScreen>

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="exercise6.id11723222.com.exercise6.PreferenceActivity">
-    <item android:id="@+id/menu_settings" android:title="@string/action_settings"
+    tools:context="exercise7.id11723222.com.exercise7.MyIntentService">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

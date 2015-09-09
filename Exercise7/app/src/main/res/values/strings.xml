@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">Exercise7</string>
+
+    <string name="start">START</string>
+    <string name="myIntentService">My Intent Service</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_my_intent_service">MyIntentService</string>
+
+    <string name="hello_world">Hello world!</string>
+
+</resources>

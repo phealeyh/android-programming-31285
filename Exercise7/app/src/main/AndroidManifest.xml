@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="exercise6.id11723222.com.exercise6" >
+    package="exercise7.id11723222.com.exercise7" >
 
     <application
         android:allowBackup="true"
@@ -16,18 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Exercise6" >
-        </activity>
-        <activity
-            android:name=".AddFriendDataActivity"
-            android:label="Add Friend Activity" >
-        </activity>
-        <activity
-            android:name=".ListFriendsActivity"
-            android:label="List Friends Activity" >
-        </activity>
+        <service
+            android:name=".MyIntentService"
+            android:label="@string/title_activity_my_intent_service"
+            >
+        </service>
     </application>
 
 </manifest>

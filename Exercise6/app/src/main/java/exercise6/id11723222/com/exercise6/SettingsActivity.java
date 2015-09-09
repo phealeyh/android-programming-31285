@@ -1,40 +1,42 @@
 package exercise6.id11723222.com.exercise6;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
-public class PreferenceActivity extends android.preference.PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preference);
-        listenToDateField();
-    }
-
-    private void listenToDateField(){
-        EditText editText = (EditText)findViewById(R.id.date);
-        editText.setOnClickListener(new View.OnClickListener() {
+        addPreferencesFromResource(R.xml.preference);
+        ListPreference datePref = (ListPreference) findPreference("preference_date");
+        datePref.setSummary(R.string.month_format);
+        datePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public void onClick(View v) {
-                
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                preference.setSummary(newValue.toString());
+                return false;
             }
         });
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_preference, menu);
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
 
@@ -46,8 +48,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_settings) {
-            startActivity(new Intent(this, MainActivity.class));
+        if (id == R.id.action_settings) {
             return true;
         }
 
