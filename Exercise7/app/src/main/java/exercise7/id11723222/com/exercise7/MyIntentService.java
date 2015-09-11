@@ -18,7 +18,7 @@ public class MyIntentService extends IntentService {
     }
 
     public MyIntentService() {
-        super(.getResources().getString(R.string.title_activity_my_intent_service));
+        super("hit");
     }
 
 
